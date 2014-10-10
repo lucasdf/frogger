@@ -77,30 +77,6 @@ var MAP_MIN_Y = -10;
 var PLAYER_MOV_X = 100;
 var PLAYER_MOV_Y =  80;
 
-/*var Map = function() {
-this.map =[ ['-2,-10', '-2,70', '-2,150','-2,230', '-2,310', '-2,390'],
-             ['98,-10','98,70', '98,150', '98,230','98,310', '98,390'],
-             ['198,-10', '198,70', '198,150','198,230', '198,310', '198,390'],
-             ['298,-10', '298,70', '298,150','298,230', '298,310', '298,390'],
-             ['398,-10', '398,70', '398,150','398,230', '398,310','398,390'],            
-             ['498,-10', '498,70', '498,150','498,230', '498,310', '498,390'],
-             ['598,-10','598,70', '598,150', '598,230','598,310', '598,390'],
-             ['698,-10', '698,70', '698,150','698,230', '698,310', '698,390'],
-             ['798,-10', '798,70', '798,150','798,230', '798,310', '798,390'],
-             ['898,-10', '898,70', '898,150','898,230', '898,310','898,390']];
-}
-Map.prototype.getx = function (x, y){ 
-    var xy = this.map[x][y].split(',');
-    return parseInt(xy[0]);
-}
-Map.prototype.gety = function (x, y){
-    var xy = this.map[x][y].split(',');
-    return parseInt(xy[1]);
-}
-mymap = new Map();
-console.log(mymap.map);*/
-
-
 var Stats = function () {
     this.life = {
         sprite: 'images/Heart.png',
@@ -119,11 +95,7 @@ Stats.prototype.update = function () {
 }
 
 var Player = function() {
-    this.sprite = 'images/char-boy.png';
-    
- //   this.x_pos = 3;
- //   this.y_pos = 5;
-    
+    this.sprite = 'images/char-boy.png';   
     this.start_x = -2;
     this.start_y = 70;
     this.x = -2;
@@ -142,25 +114,18 @@ Player.prototype.reset = function() {
     this.y = this.start_y;
 }
 Player.prototype.render = function() {
-//    this.x = mymap.getx(this.x_pos,this.y_pos);
-//    this.y = mymap.gety(this.x_pos,this.y_pos);
-
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 Player.prototype.handleInput = function(key) {
     console.log(key);    
     if ( key == 'right') {
         this.x = this.x+PLAYER_MOV_X;
-        //this.x_pos = this.x_pos+1;
     } else if (key == 'left') {
         this.x = this.x-PLAYER_MOV_X;;
-        //this.x_pos = this.x_pos-1;
     } else if (key == 'up') {
         this.y = this.y - PLAYER_MOV_Y;
-        //this.y_pos = this.y_pos-1;
     } else if (key == 'down') {
         this.y = this.y + PLAYER_MOV_Y;
-        //this.y_pos = this.y_pos+1;
     } else if (key == 'esc'){
         //Engine.reset(); NOT WORKING
     }
@@ -173,20 +138,8 @@ Player.prototype.handleInput = function(key) {
     } else if (this.y < MAP_MIN_Y) {
         this.y = MAP_MIN_Y;
     }
-    console.log(this.x);
-    console.log(this.y); 
-    /*if (this.x > 898) {
-        this.x = 898
-    }
-    if (this.y > 380) {
-        this.y = 380;
-    }
-    if (this.x < -2) {
-        this.x = -2;
-    }
-    if (this.y < -10) {
-        this.y = -10;
-    }*/
+   // console.log(this.x);
+   // console.log(this.y); 
 }
 // my edit //
 
@@ -222,7 +175,7 @@ function removeFromObjects (obj) {
         objects.splice(index,1);
     }
 }
-//createEnemies();
+
 // my edit //
 
 
