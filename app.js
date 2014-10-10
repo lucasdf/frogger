@@ -96,8 +96,8 @@ Stats.prototype.update = function () {
 
 var Player = function() {
     this.sprite = 'images/char-boy.png';   
-    this.start_x = -2;
-    this.start_y = 70;
+    this.start_x = 898;
+    this.start_y = 390;
     this.x = -2;
     this.y = 70;
     
