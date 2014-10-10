@@ -82,7 +82,7 @@ var Engine = (function(global) {
     }
 
     function render() {
-        
+        ctx.fillRect(0,0,1010,83);
         var rowImages = [
                 'images/water-block.png',
                 'images/stone-block.png',
