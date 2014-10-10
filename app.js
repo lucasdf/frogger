@@ -41,6 +41,7 @@ Enemy.prototype.collision = function() {
     stopEntities();
     stats['life'].number -= 1;
     resetLevel();
+    return stats['life'].number;
 }
 
 var Object = function(x, y, speed) {
@@ -117,7 +118,9 @@ Stats.prototype.render = function () {
 Stats.prototype.update = function () {
 
 }
-
+Stats.prototype.restart = function () {
+    this.life['number'] = 5;
+}
 var Player = function() {
     this.sprite = 'images/char-boy.png';   
     this.start_x = 898;
@@ -125,11 +128,6 @@ var Player = function() {
     
     this.x = 898;
     this.y = 390;
-    
-    this.life = {
-        sprite: 'images/Heart.png',
-        number: 5        
-    }
 }
 Player.prototype.update = function(dt) {
     //console.log("player.update called");
@@ -173,6 +171,7 @@ Player.prototype.handleInput = function(key) {
 // Place the player object in a variable called player
 
 // my edit //
+
 var stats = new Stats();
 var player = new Player();
 var objects = [];
@@ -183,10 +182,14 @@ function createEnemies() {
     allEntities.push(new Enemy(-200,70,1));
     allEntities.push(new Enemy(-2,150,2));
     allEntities.push(new Enemy(-2,310,1.5));
-    allEntities.push(new Object(-2,70,1));
     allEntities.push(new Object(-300,70,1));
 }
-
+function restartGame() {
+    allEntities.length = 0;
+    createEnemies();
+    player = new Player();
+    stats.restart();
+}
 
 
 function stopEntities () {

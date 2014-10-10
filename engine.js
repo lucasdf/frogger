@@ -49,8 +49,8 @@ var Engine = (function(global) {
             var e_y = entity.y;
             if (e_y == p_y) {
                 if (e_x > p_x -80 && e_x < p_x + 70) {
-                    if (entity.collision()) {
-                        return true;
+                    if (entity.collision() == 0) {
+                        restartGame();
                     }
                 }
             }
@@ -94,13 +94,13 @@ var Engine = (function(global) {
         stats.render();
     }
 
-/*    function resetGame() {
+    function resetGame() {
         allEntities.forEach(function(entity) {
             entity.reset();
         });
         player.reset();
         stats['life'].reset();
-    } */
+    }
     
     function stopEnemies() {
     allEntities.length = 0;
