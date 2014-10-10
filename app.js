@@ -37,33 +37,57 @@ Enemy.prototype.reset = function() {
     this.x = this.start_x;
     this.y = this.start_y;
 }
+Enemy.prototype.collision = function() {
+    stopEntities();
+    stats['life'].number -= 1;
+    resetLevel();
+}
 
 var Object = function(x, y, speed) {
     this.sprite = 'images/gem-orange.png';
-    this.x = x;
-    this.y = y;
+    this.x = x, this.y = y, this.start_x = x, this.start_y = y;
     this.speed = speed;
+    this.isMoving = true;
 }
 
 Object.prototype.update = function () {
-    this.x = this.x + (1 * this.speed);
-    if (this.x >= 1010) {
-        this.x =-2;
+    if (this.isMoving) {
+        this.x = this.x + (1 * this.speed);
+        if (this.x >= 1010) {
+            this.x =-2;
+        }
     }
 }
 
 Object.prototype.render = function () {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
-Object.prototype.checkCollision = function (player_x, player_y) {
-    if (this.y == player_y) {
+Object.prototype.collision = function () {
+    stopEntities();
+    removeFromEntities(this);
+    setTimeout(function(){
+                    allEntities.forEach(function(entity) {
+                   entity.start(); 
+                });
+                }, 3000);
+}
+Object.prototype.stop = function () {
+    this.isMoving = false;
+}
+Object.prototype.start = function () {
+    this.isMoving = true;
+}
+Object.prototype.reset = function () {
+    this.x = this.start_x;
+    this.y = this.start_y;
+}
+    /*if (this.y == player_y) {
         if (this.x > player_x - 80 && this.x < player_x + 70) {
             removeFromObjects(this);
             return true;
         }   
     }
-    return false;
-}
+    return false;*/
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
@@ -149,34 +173,46 @@ Player.prototype.handleInput = function(key) {
 // Place the player object in a variable called player
 
 // my edit //
-var allEnemies = [];
-function createEnemies() {
-    allEnemies.push(new Enemy());
-    allEnemies.push(new Enemy(-200,70,1));
-    allEnemies.push(new Enemy(-2,150,2));
-    allEnemies.push(new Enemy(-2,230,2));
-    allEnemies.push(new Enemy(-2,310,1.5));
-    allEnemies.push(new Enemy(-100,390,4));
-    allEnemies.push(new Enemy(-2,390,4));
-
-}
-function stopEnemies() {
-    allEnemies.length = 0;
-    console.log(allEnemies);
-}
-
 var stats = new Stats();
 var player = new Player();
 var objects = [];
-objects.push(new Object(-300,70,1));
-objects.push(new Object(-500,70,1));
-function removeFromObjects (obj) {
-    var index = objects.indexOf(obj);
+
+var allEntities = [];
+function createEnemies() {
+    allEntities.push(new Enemy());
+    allEntities.push(new Enemy(-200,70,1));
+    allEntities.push(new Enemy(-2,150,2));
+    allEntities.push(new Enemy(-2,310,1.5));
+    allEntities.push(new Object(-2,70,1));
+    allEntities.push(new Object(-300,70,1));
+}
+
+
+
+function stopEntities () {
+    allEntities.forEach(function(entity) {
+            entity.stop();
+        });
+}
+function startEntities () {
+    allEntities.forEach(function(entity) {
+            entity.start();
+        });
+}
+function removeFromEntities (obj) {
+    var index = allEntities.indexOf(obj);
     if (index > -1) {
-        objects.splice(index,1);
+        allEntities.splice(index,1);
     }
 }
 
+function resetLevel () {
+    allEntities.forEach(function(entity) {
+            entity.reset();
+            entity.start();
+        });
+        player.reset();
+}
 // my edit //
 
 

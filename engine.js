@@ -40,42 +40,25 @@ var Engine = (function(global) {
     function update(dt) {
         updateEntities(dt);
         checkCollisions(dt);
-        objects.forEach(function(obj) {
-            if (obj.checkCollision(player.x,player.y)) {
-                allEnemies.forEach(function(enemy) {
-                   enemy.stop(); 
-                });
-                setTimeout(function(){
-                    allEnemies.forEach(function(enemy) {
-                   enemy.start(); 
-                });
-                }, 3000);
-            }
-        });
     }
     function checkCollisions(dt) {
         var p_x = player.x;
         var p_y = player.y;
-        allEnemies.forEach(function(enemy) {
-            var e_x = enemy.x;
-            var e_y = enemy.y;
+        allEntities.forEach(function(entity) {
+            var e_x = entity.x;
+            var e_y = entity.y;
             if (e_y == p_y) {
                 if (e_x > p_x -80 && e_x < p_x + 70) {
-                    console.log('end game! ;(')
-                    stats.life['number'] -= 1;
-                    console.log("life="+player.life['number'])
-                    reset();
-                    return false;
+                    if (entity.collision()) {
+                        return true;
+                    }
                 }
             }
         });
     }
     function updateEntities(dt) {
-        allEnemies.forEach(function(enemy) {
-            enemy.update(dt);
-        });
-        objects.forEach(function(obj) {
-            obj.update(dt);
+        allEntities.forEach(function(entity) {
+            entity.update();
         });
         player.update();
         stats.update();
@@ -99,27 +82,28 @@ var Engine = (function(global) {
             for (col = 0; col < numCols; col++) {
                 ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
             }
-        }
-        
-        
+        }     
         renderEntities();
     }
     
     function renderEntities() {
-        allEnemies.forEach(function(enemy) {
-            enemy.render();
-        });
-        objects.forEach(function(obj) {
-            obj.render();
+        allEntities.forEach(function(entity) {
+            entity.render();
         });
         player.render();
         stats.render();
     }
-    function resetAll() {
-        allEnemies.forEach(function(enemy) {
-            enemy.reset();
+
+/*    function resetGame() {
+        allEntities.forEach(function(entity) {
+            entity.reset();
         });
         player.reset();
+        stats['life'].reset();
+    } */
+    
+    function stopEnemies() {
+    allEntities.length = 0;
     }
     
     function reset() {
