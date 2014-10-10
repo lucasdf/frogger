@@ -110,6 +110,8 @@ var Engine = (function(global) {
         });
         player.render();
         stats.render();
+        star1.render();
+        star2.render();
     }
 
     function resetGame() {
@@ -140,7 +142,7 @@ var Engine = (function(global) {
     }
 
     Resources.load([
-        
+        'images/Star.png',
         'images/Heart.png',
         'images/stone-block.png',
         'images/water-block.png',

@@ -81,6 +81,16 @@ Object.prototype.reset = function () {
     this.x = this.start_x;
     this.y = this.start_y;
 }
+var Star = function (x, y) {
+    this.x = x, this.y = y;
+    this.sprite = 'images/Star.png';
+}
+Star.prototype.render = function () {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+}
+Star.prototype.collision = function () {
+
+}
     /*if (this.y == player_y) {
         if (this.x > player_x - 80 && this.x < player_x + 70) {
             removeFromObjects(this);
@@ -174,7 +184,8 @@ Player.prototype.handleInput = function(key) {
 var stats = new Stats();
 var player = new Player();
 var objects = [];
-
+var star1 = new Star (198,-10);
+var star2 = new Star (698,-10);
 var allEntities = [];
 function createEnemies() {
     allEntities.push(new Enemy());
