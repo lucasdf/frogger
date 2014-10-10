@@ -3,23 +3,14 @@ var Engine = (function(global) {
         win = global.window,
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
-//        canvas_stats = doc.createElement('canvas'),
-//        ctx_stats = canvas_stats.getContext('2d'),
         patterns = {},
         lastTime;
     var requestID = 0;
     var stopped;
     
-//    canvas_stats.height = 30;
-//    canvas_stats.width = 1010;
-//    doc.body.appendChild(canvas_stats);
-//    ctx_stats.font="25px Verdana";
-//    ctx_stats.fillText("Thanks for playing :)",100,20);
-    
- //   canvas.width = 505;
+
     canvas.height = 606;
     canvas.width = 1010;
- //   canvas.height = 808;
     doc.body.appendChild(canvas);
     
     
@@ -48,7 +39,7 @@ var Engine = (function(global) {
     }
     function update(dt) {
         updateEntities(dt);
-//        checkCollisions(dt);
+        checkCollisions(dt);
         objects.forEach(function(obj) {
             if (obj.checkCollision(player.x,player.y)) {
                 allEnemies.forEach(function(enemy) {
@@ -78,12 +69,6 @@ var Engine = (function(global) {
                 }
             }
         });
-        // check if player is on water ** not working
-        /*if (p_y == -10) {
-            console.log('end game! ;(')
-            reset();
-            return false;
-        } */
     }
     function updateEntities(dt) {
         allEnemies.forEach(function(enemy) {
@@ -97,6 +82,7 @@ var Engine = (function(global) {
     }
 
     function render() {
+        
         var rowImages = [
                 'images/water-block.png',
                 'images/stone-block.png',
