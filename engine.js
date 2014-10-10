@@ -49,12 +49,23 @@ var Engine = (function(global) {
             var e_y = entity.y;
             if (e_y == p_y) {
                 if (e_x > p_x -80 && e_x < p_x + 70) {
-                    if (entity.collision() == 0) {
-                        restartGame();
-                    }
+                    entity.collision();
                 }
             }
         });
+        if (isOnWater(p_x,p_y)) {
+            stats['life'].number -= 1;
+            resetLevel();
+        }
+    }
+    function isOnWater(x,y) {
+        if (y == -10) {
+            if (x == 198 || x == 698) {
+                return false;
+            } else {
+                return true;
+            }
+        }
     }
     function updateEntities(dt) {
         allEntities.forEach(function(entity) {

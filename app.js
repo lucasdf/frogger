@@ -41,7 +41,6 @@ Enemy.prototype.collision = function() {
     stopEntities();
     stats['life'].number -= 1;
     resetLevel();
-    return stats['life'].number;
 }
 
 var Object = function(x, y, speed) {
@@ -161,8 +160,8 @@ Player.prototype.handleInput = function(key) {
     } else if (this.y < MAP_MIN_Y) {
         this.y = MAP_MIN_Y;
     }
-   // console.log(this.x);
-   // console.log(this.y); 
+   console.log(this.x);
+   console.log(this.y); 
 }
 // my edit //
 
@@ -210,11 +209,15 @@ function removeFromEntities (obj) {
 }
 
 function resetLevel () {
-    allEntities.forEach(function(entity) {
+    if (stats.life['number'] == 0) {
+        restartGame();
+    } else {
+        allEntities.forEach(function(entity) {
             entity.reset();
             entity.start();
         });
         player.reset();
+    }
 }
 // my edit //
 
