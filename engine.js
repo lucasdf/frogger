@@ -7,7 +7,7 @@ var Engine = (function(global) {
         lastTime;
     var requestID = 0;
     var stopped;
-    
+    var level = 0;
 
     canvas.height = 606;
     canvas.width = 1010;
@@ -20,7 +20,11 @@ var Engine = (function(global) {
             dt = (now - lastTime) / 1000.0;
         
         update(dt);
+        if (handler.level == 0) {
+            renderStart();
+        } else {
         render();
+        }
         lastTime = now;
         if (!stopped) {
         requestID = win.requestAnimationFrame(main);
@@ -33,9 +37,15 @@ var Engine = (function(global) {
  //       reset();
         stopEnemies();        
         lastTime = Date.now();
-        render();
- //       createEnemies();
-        main();
+        if (handler.level == 0) {
+            renderStart();
+            main();
+        } else {
+            render();
+            createEnemies();
+            main();
+        }
+        
     }
     function update(dt) {
         updateEntities(dt);
@@ -74,7 +84,35 @@ var Engine = (function(global) {
         player.update();
         stats.update();
     }
+    function renderStart() {
 
+        ctx.fillRect(0,0,1010,83);
+        var rowImages = [
+                ['images/water-block.png','images/water-block.png','images/stone-block.png','images/water-block.png','images/water-block.png',
+                'images/water-block.png','images/water-block.png','images/stone-block.png','images/water-block.png','images/water-block.png'],
+                'images/stone-block.png',
+                'images/stone-block.png',
+                'images/stone-block.png',
+                'images/grass-block.png',
+                'images/grass-block.png'
+            ],
+            numRows = 6,
+            numCols = 10,
+            row, col;
+
+        for (row = 0; row < numRows; row++) {
+            var count = 0;
+            for (col = 0; col < numCols; col++) {
+                if (rowImages[row] instanceof Array) {
+                    ctx.drawImage(Resources.get(rowImages[row][count]), col * 101, row * 83);
+                    count++;                  
+            } else {
+                ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
+            }
+            }
+        }  
+        selector.render();
+    }
     function render() {
         // selector
             
@@ -105,7 +143,6 @@ var Engine = (function(global) {
             }
         }     
         renderEntities();
-        selector.render();
     }
     
     function renderEntities() {

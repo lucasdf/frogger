@@ -1,14 +1,18 @@
 var Handler = function () {
     this.handler = "selector";
+    this.level = 0;
 }
 Handler.prototype.handleInput = function(key) {
     if (this.handler == "selector") {
-        selector.handleInput(key);
+        if (selector.handleInput(key)) {
+            this.level = 1;
+        }
     } else if (this.handler == "player") {
         player.handleInput(key);
     }
 }
 var handler = new Handler();
+
 var Selector = function () {
     this.sprite = 'images/Star.png';
     this.x = 298, this.y = 230;
@@ -36,19 +40,19 @@ Selector.prototype.handleInput = function(key) {
    console.log(this.y); 
 }
 Selector.prototype.select = function () {
-    if (x == 298) {
-        this.selected == 'images/char-boy.png';
-    } else if (x == 398) {
-        this.selected == 'images/char-cat-girl.png';
-    } else if (x == 498) {
-        this.selected == 'images/char-horn-girl.png';
-    } else if (x == 598) {
-        this.selected == 'images/char-pink-girl.png';
+    if (this.x == 298) {
+        player.sprite = 'images/char-boy.png';
+    } else if (this.x == 398) {
+        player.sprite = 'images/char-cat-girl.png';
+    } else if (this.x == 498) {
+        player.sprite = 'images/char-horn-girl.png';
+    } else if (this.x == 598) {
+        player.sprite = 'images/char-pink-girl.png';
     }
 
     handler.handler = "player";
+    handler.level = 1;
     createEnemies();
-    removeFromEntities(this);
 }
 Selector.prototype.render = function () {
     console.log('rendering selector');
@@ -193,7 +197,7 @@ Stats.prototype.restart = function () {
     this.life['number'] = 5;
 }
 var Player = function() {
-    this.sprite = selector.selected;  
+    this.sprite = "";  
     this.start_x = 898;
     this.start_y = 390;
     
@@ -249,7 +253,6 @@ var objects = [];
 var star1 = new Star (198,-10);
 var star2 = new Star (698,-10);
 var allEntities = [];
-allEntities.push(selector);
 function createEnemies() {
     allEntities.push(new Enemy());
     allEntities.push(new Enemy(-200,70,1));
@@ -259,9 +262,10 @@ function createEnemies() {
 }
 function restartGame() {
     allEntities.length = 0;
-    createEnemies();
     player = new Player();
     stats.restart();
+    handler.level = 0;
+    handler.handler = "selector"
 }
 
 
