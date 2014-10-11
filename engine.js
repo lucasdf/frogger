@@ -34,7 +34,7 @@ var Engine = (function(global) {
         stopEnemies();        
         lastTime = Date.now();
         render();
-        createEnemies();
+ //       createEnemies();
         main();
     }
     function update(dt) {
@@ -76,6 +76,9 @@ var Engine = (function(global) {
     }
 
     function render() {
+        // selector
+            
+        // selector
         ctx.fillRect(0,0,1010,83);
         var rowImages = [
                 ['images/water-block.png','images/water-block.png','images/stone-block.png','images/water-block.png','images/water-block.png',
@@ -102,11 +105,13 @@ var Engine = (function(global) {
             }
         }     
         renderEntities();
+        selector.render();
     }
     
     function renderEntities() {
         allEntities.forEach(function(entity) {
             entity.render();
+            console.log("rendered");
         });
         player.render();
         stats.render();
@@ -148,9 +153,11 @@ var Engine = (function(global) {
         'images/water-block.png',
         'images/grass-block.png',
         'images/enemy-bug.png',
+        'images/Selector.png',
         'images/char-boy.png',
         'images/char-cat-girl.png',
         'images/char-horn-girl.png',
+        'images/char-pink-girl.png',
         'images/gem-orange.png',
         'images/Rock.png'
     ]);

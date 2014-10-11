@@ -1,3 +1,65 @@
+var Handler = function () {
+    this.handler = "selector";
+}
+Handler.prototype.handleInput = function(key) {
+    if (this.handler == "selector") {
+        selector.handleInput(key);
+    } else if (this.handler == "player") {
+        player.handleInput(key);
+    }
+}
+var handler = new Handler();
+var Selector = function () {
+    this.sprite = 'images/Star.png';
+    this.x = 298, this.y = 230;
+    this.option = [['images/char-boy.png',298,230],
+        ['images/char-cat-girl.png',398,230],
+        ['images/char-horn-girl.png',498,230],
+        ['images/char-pink-girl.png',598,230]];
+    this.selected = 'images/char-boy.png';
+}
+Selector.prototype.handleInput = function(key) {
+    console.log(key);    
+    if ( key == 'right') {
+        this.x = this.x+PLAYER_MOV_X;
+    } else if (key == 'left') {
+        this.x = this.x-PLAYER_MOV_X;;
+    } else if (key == 'enter'){
+        this.select();
+    }
+    if (this.x > 598) {
+        this.x = 598;
+    } else if (this.x < 298) {
+        this.x = 298;
+    }
+   console.log(this.x);
+   console.log(this.y); 
+}
+Selector.prototype.select = function () {
+    if (x == 298) {
+        this.selected == 'images/char-boy.png';
+    } else if (x == 398) {
+        this.selected == 'images/char-cat-girl.png';
+    } else if (x == 498) {
+        this.selected == 'images/char-horn-girl.png';
+    } else if (x == 598) {
+        this.selected == 'images/char-pink-girl.png';
+    }
+
+    handler.handler = "player";
+    createEnemies();
+    removeFromEntities(this);
+}
+Selector.prototype.render = function () {
+    console.log('rendering selector');
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    this.option.forEach(function(option) {
+        ctx.drawImage(Resources.get(option[0]), option[1], option[2]);
+    });
+}
+Selector.prototype.update = function () {}
+var selector = new Selector();
+
 // Enemies our player must avoid
 var Enemy = function(x, y, speed) {
     // Variables applied to each of our instances go here,
@@ -131,7 +193,7 @@ Stats.prototype.restart = function () {
     this.life['number'] = 5;
 }
 var Player = function() {
-    this.sprite = 'images/char-boy.png';   
+    this.sprite = selector.selected;  
     this.start_x = 898;
     this.start_y = 390;
     
@@ -187,6 +249,7 @@ var objects = [];
 var star1 = new Star (198,-10);
 var star2 = new Star (698,-10);
 var allEntities = [];
+allEntities.push(selector);
 function createEnemies() {
     allEntities.push(new Enemy());
     allEntities.push(new Enemy(-200,70,1));
@@ -235,8 +298,8 @@ function resetLevel () {
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
-document.addEventListener(/*'keyup'*/'keydown', function(e) {
-    var allowedKeys = {
+// document.addEventListener(/*'keyup'*/'keydown', function(e) {
+/*    var allowedKeys = {
         37: 'left',
         38: 'up',
         39: 'right',
@@ -245,4 +308,16 @@ document.addEventListener(/*'keyup'*/'keydown', function(e) {
     };
 
     player.handleInput(allowedKeys[e.keyCode]);
+}); */
+document.addEventListener(/*'keyup'*/'keydown', function(e) {
+    var allowedKeys = {
+        37: 'left',
+        38: 'up',
+        39: 'right',
+        40: 'down',
+        27: 'esc', // need to know how to access engine.reset()
+        13: 'enter'
+    };
+
+    handler.handleInput(allowedKeys[e.keyCode]);
 });
