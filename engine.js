@@ -19,9 +19,8 @@ var Engine = (function(global) {
         
         update(dt);
         if (handler.level == 0) {
-            renderStart();
-        } else {
-        render();
+            renderStart(); } else {
+            render(); 
         }
         lastTime = now;
         requestID = win.requestAnimationFrame(main);
@@ -97,9 +96,6 @@ var Engine = (function(global) {
         selector.render();
     }
     function render() {
-        // selector
-            
-        // selector
         ctx.fillRect(0,0,1010,83);
         var rowImages = [
                 ['images/water-block.png','images/water-block.png','images/stone-block.png','images/water-block.png','images/water-block.png',
@@ -153,8 +149,7 @@ var Engine = (function(global) {
     
     function reset() {
         console.log('reset called');
-        window.cancelAnimationFrame(requestID);
-        stopped = true;
+//        window.cancelAnimationFrame(requestID);
         stopEnemies();
         setTimeout(function(){
             console.log("timeout called")
