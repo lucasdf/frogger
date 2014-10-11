@@ -6,8 +6,6 @@ var Engine = (function(global) {
         patterns = {},
         lastTime;
     var requestID = 0;
-    var stopped;
-    var level = 0;
 
     canvas.height = 606;
     canvas.width = 1010;
@@ -26,15 +24,11 @@ var Engine = (function(global) {
         render();
         }
         lastTime = now;
-        if (!stopped) {
         requestID = win.requestAnimationFrame(main);
-        }
         
     };
 
     function init() {
-
- //       reset();
         stopEnemies();        
         lastTime = Date.now();
         if (handler.level == 0) {
@@ -63,20 +57,9 @@ var Engine = (function(global) {
                 }
             }
         });
-        if (isOnWater(p_x,p_y)) {
-            stats['life'].number -= 1;
-            resetLevel();
-        }
+        player.isOnWater();
     }
-    function isOnWater(x,y) {
-        if (y == -10) {
-            if (x == 198 || x == 698) {
-                return false;
-            } else {
-                return true;
-            }
-        }
-    }
+
     function updateEntities(dt) {
         allEntities.forEach(function(entity) {
             entity.update();
@@ -174,11 +157,7 @@ var Engine = (function(global) {
         stopped = true;
         stopEnemies();
         setTimeout(function(){
-            //resetAll();
-            //createEnemies();
-            stopped = false;
             console.log("timeout called")
-            //requestID = win.requestAnimationFrame(main);
             init();
             }, 3000);
     }

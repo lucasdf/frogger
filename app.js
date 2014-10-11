@@ -1,3 +1,7 @@
+var MAP_MAX_X = 898, MAP_MAX_Y = 390;
+var MAP_MIN_X = -2, MAP_MIN_Y = -10;
+var PLAYER_MOV_X = 100, PLAYER_MOV_Y =  80;
+
 var Handler = function () {
     this.handler = "selector";
     this.level = 0;
@@ -20,7 +24,6 @@ var Selector = function () {
         ['images/char-cat-girl.png',398,230],
         ['images/char-horn-girl.png',498,230],
         ['images/char-pink-girl.png',598,230]];
-    this.selected = 'images/char-boy.png';
 }
 Selector.prototype.handleInput = function(key) {
     console.log(key);    
@@ -115,7 +118,6 @@ var Object = function(x, y, speed) {
     this.speed = speed;
     this.isMoving = true;
 }
-
 Object.prototype.update = function () {
     if (this.isMoving) {
         this.x = this.x + (1 * this.speed);
@@ -124,7 +126,6 @@ Object.prototype.update = function () {
         }
     }
 }
-
 Object.prototype.render = function () {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
@@ -144,9 +145,9 @@ Object.prototype.start = function () {
     this.isMoving = true;
 }
 Object.prototype.reset = function () {
-    this.x = this.start_x;
-    this.y = this.start_y;
+    this.x = this.start_x, this.y = this.start_y;
 }
+
 var Star = function (x, y) {
     this.x = x, this.y = y;
     this.sprite = 'images/Star.png';
@@ -157,31 +158,16 @@ Star.prototype.render = function () {
 Star.prototype.collision = function () {
 
 }
-    /*if (this.y == player_y) {
-        if (this.x > player_x - 80 && this.x < player_x + 70) {
-            removeFromObjects(this);
-            return true;
-        }   
-    }
-    return false;*/
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
-
-// my edit //
-var MAP_MAX_X = 898;
-var MAP_MAX_Y = 390;
-var MAP_MIN_X = -2;
-var MAP_MIN_Y = -10;
-
-var PLAYER_MOV_X = 100;
-var PLAYER_MOV_Y =  80;
 
 var Stats = function () {
     this.life = {
         sprite: 'images/Heart.png',
         number: 5        
     }
+    this.points = 0;
 }
 Stats.prototype.render = function () {
     var img_x = 0, img_y = 0;
@@ -198,11 +184,8 @@ Stats.prototype.restart = function () {
 }
 var Player = function() {
     this.sprite = "";  
-    this.start_x = 898;
-    this.start_y = 390;
-    
-    this.x = 898;
-    this.y = 390;
+    this.start_x = 898, this.start_y = 390;
+    this.x = 898, this.y = 390;
 }
 Player.prototype.update = function(dt) {
     //console.log("player.update called");
@@ -239,6 +222,17 @@ Player.prototype.handleInput = function(key) {
    console.log(this.x);
    console.log(this.y); 
 }
+Player.prototype.isOnWater = function() {
+    if (this.y == -10) {
+            if (this.x == 198 || this.x == 698) {
+                return false;
+            } else {
+                stats['life'].number -= 1;
+                resetLevel();
+                return true;
+            }
+        }
+}
 // my edit //
 
 // Now instantiate your objects.
@@ -253,6 +247,7 @@ var objects = [];
 var star1 = new Star (198,-10);
 var star2 = new Star (698,-10);
 var allEntities = [];
+
 function createEnemies() {
     allEntities.push(new Enemy());
     allEntities.push(new Enemy(-200,70,1));
@@ -297,22 +292,7 @@ function resetLevel () {
         player.reset();
     }
 }
-// my edit //
 
-
-// This listens for key presses and sends the keys to your
-// Player.handleInput() method. You don't need to modify this.
-// document.addEventListener(/*'keyup'*/'keydown', function(e) {
-/*    var allowedKeys = {
-        37: 'left',
-        38: 'up',
-        39: 'right',
-        40: 'down',
-        27: 'esc' // need to know how to access engine.reset()
-    };
-
-    player.handleInput(allowedKeys[e.keyCode]);
-}); */
 document.addEventListener(/*'keyup'*/'keydown', function(e) {
     var allowedKeys = {
         37: 'left',
