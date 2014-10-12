@@ -68,31 +68,10 @@ var Engine = (function(global) {
     }
     function renderStart() {
 
-        ctx.fillRect(0,0,1010,83);
-        var rowImages = [
-                ['images/water-block.png','images/water-block.png','images/stone-block.png','images/water-block.png','images/water-block.png',
-                'images/water-block.png','images/water-block.png','images/stone-block.png','images/water-block.png','images/water-block.png'],
-                'images/stone-block.png',
-                'images/stone-block.png',
-                'images/stone-block.png',
-                'images/grass-block.png',
-                'images/grass-block.png'
-            ],
-            numRows = 6,
-            numCols = 10,
-            row, col;
+        ctx.fillRect(0,0,1010,800);
 
-        for (row = 0; row < numRows; row++) {
-            var count = 0;
-            for (col = 0; col < numCols; col++) {
-                if (rowImages[row] instanceof Array) {
-                    ctx.drawImage(Resources.get(rowImages[row][count]), col * 101, row * 83);
-                    count++;                  
-            } else {
-                ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
-            }
-            }
-        }  
+        
+
         selector.render();
     }
     function render() {
