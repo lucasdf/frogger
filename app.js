@@ -18,12 +18,11 @@ Handler.prototype.handleInput = function(key) {
 var handler = new Handler();
 
 var Selector = function () {
-    this.sprite = 'images/Star.png';
+    this.sprite = 'images/Selector.png';
     this.x = 298, this.y = 230;
     this.option = [['images/char-boy.png',298,230],
         ['images/char-cat-girl.png',398,230],
-        ['images/char-horn-girl.png',498,230],
-        ['images/char-pink-girl.png',598,230]];
+        ['images/char-horn-girl.png',498,230]];
 }
 Selector.prototype.handleInput = function(key) {
     console.log(key);    
