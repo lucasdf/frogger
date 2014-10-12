@@ -155,6 +155,10 @@ Star.prototype.render = function () {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 Star.prototype.collision = function () {
+    stats.stars['number'] += 1;
+    removeFromEntities(this);
+}
+Star.prototype.update = function(dt) {
 
 }
 // Now write your own player class
@@ -167,11 +171,20 @@ var Stats = function () {
         number: 5        
     }
     this.points = 0;
+    this.stars = {
+        number: 1,
+        sprite: 'images/Star.png'
+    }
 }
 Stats.prototype.render = function () {
     var img_x = 0, img_y = 0;
         for ( x = 0; x < this.life['number']; x++) {
             ctx.drawImage(Resources.get(this.life['sprite']),img_x,0,50,50);
+            img_x += 55;
+        }
+    img_x = 700, img_y = 0;
+    for ( x = 0; x < this.stars['number']; x++) {
+            ctx.drawImage(Resources.get(this.stars['sprite']),img_x,0,50,50);
             img_x += 55;
         }
 }
@@ -246,7 +259,8 @@ var objects = [];
 var star1 = new Star (198,-10);
 var star2 = new Star (698,-10);
 var allEntities = [];
-
+allEntities.push(star1);
+allEntities.push(star2);
 function createEnemies() {
     allEntities.push(new Enemy());
     allEntities.push(new Enemy(-200,70,1));
