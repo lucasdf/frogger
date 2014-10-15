@@ -19,7 +19,8 @@ var Engine = (function(global) {
         
         update(dt);
         if (handler.level == 0) {
-            renderStart(); } else {
+            renderStart(); } 
+        else {
             render(); 
         }
         lastTime = now;
@@ -27,8 +28,7 @@ var Engine = (function(global) {
         
     };
 
-    function init() {
-        stopEnemies();        
+    function init() {      
         lastTime = Date.now();
         if (handler.level == 0) {
             renderStart();
@@ -77,6 +77,7 @@ var Engine = (function(global) {
         selector.render();
     }
     function render() {
+        ctx.fillStyle = 'white';
         ctx.fillRect(0,0,1010,83);
         var rowImages = [
                 ['images/water-block.png','images/water-block.png','images/stone-block.png','images/water-block.png','images/water-block.png',
@@ -111,31 +112,6 @@ var Engine = (function(global) {
         });
         player.render();
         stats.render();
-  //      star1.render();
- //       star2.render();
-    }
-
-    function resetGame() {
-        allEntities.forEach(function(entity) {
-            entity.reset();
-        });
-        selector.reset();
-        player.reset();
-        stats['life'].reset();
-    }
-    
-    function stopEnemies() {
-    allEntities.length = 0;
-    }
-    
-    function reset() {
-        console.log('reset called');
-//        window.cancelAnimationFrame(requestID);
-        stopEnemies();
-        setTimeout(function(){
-            console.log("timeout called")
-            init();
-            }, 3000);
     }
 
     Resources.load([
