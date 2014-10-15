@@ -190,7 +190,6 @@ Stats.prototype.restart = function () {
 var Player = function() {
     Renderable.call(this,'',898, 390);
 }
-
 Player.prototype = Object.create(Renderable.prototype);
 Player.prototype.update = function(dt) {
     //console.log("player.update called");
@@ -231,13 +230,10 @@ Player.prototype.isOnWater = function() {
             }
         }
 }
-// my edit //
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-
-// my edit //
 
 var stats = new Stats();
 var player = new Player();

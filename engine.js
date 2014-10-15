@@ -67,11 +67,7 @@ var Engine = (function(global) {
         stats.update();
     }
     function renderStart() {
-
         ctx.fillRect(0,0,1010,800);
-
-        
-
         selector.render();
     }
     function render() {
