@@ -55,6 +55,7 @@ Selector.prototype.handleInput = function(key) {
    console.log(this.y); 
 }
 Selector.prototype.select = function () {
+    if (this.x == 298 || this.x == 398 || this.x == 498) {
     if (this.x == 298) {
         player.sprite = 'images/char-boy.png';
     } else if (this.x == 398) {
@@ -64,10 +65,11 @@ Selector.prototype.select = function () {
     } /*else if (this.x == 598) {
         player.sprite = 'images/char-pink-girl.png';
     } */
-
     handler.handler = "player";
     handler.level = 1;
     createEnemies();
+    }
+    
 }
 Selector.prototype.render = function () {
     console.log('rendering selector');
