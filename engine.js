@@ -106,7 +106,6 @@ var Engine = (function(global) {
     function renderEntities() {
         allEntities.forEach(function(entity) {
             entity.render();
-            console.log("rendered");
         });
         player.render();
         stats.render();

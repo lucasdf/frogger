@@ -17,16 +17,15 @@ Handler.prototype.handleInput = function(key) {
 }
 var handler = new Handler();
 
+
 var Renderable = function (sprite,x,y) {
     this.sprite = sprite;
     this.start_x = x || -2, this.start_y = y || 60, this.x = x, this.y = y;
 }
 Renderable.prototype.render = function () {
-    console.log(this.sprite);
-    console.log(this.x);
-    console.log(this.y);
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
+
 
 var Selector = function () {
     this.sprite = 'images/Selector.png';
@@ -79,13 +78,7 @@ var selector = new Selector();
 
 // Enemies our player must avoid
 var Enemy = function(x, y, speed) {
-    // Variables applied to each of our instances go here,
     Renderable.call(this,'images/enemy-bug.png',x, y);
-//    this.sprite = 'images/enemy-bug.png';
-//    this.start_x = x || -2;
-//    this.start_y = y || 70;
-//    this.x = x || -2;
-//    this.y = y || 70;
     this.speed = speed || 1;
     this.isMoving = true;
 }
@@ -123,13 +116,13 @@ Enemy.prototype.collision = function() {
     resetLevel();
 }
 
-var Object = function(x, y, speed) {
-    this.sprite = 'images/gem-orange.png';
-    this.x = x, this.y = y, this.start_x = x, this.start_y = y;
+var MyObject = function(x, y, speed) {
+    Renderable.call(this,'images/gem-orange.png',x, y);
     this.speed = speed;
     this.isMoving = true;
 }
-Object.prototype.update = function () {
+MyObject.prototype = Object.create(Renderable.prototype);
+MyObject.prototype.update = function () {
     if (this.isMoving) {
         this.x = this.x + (1 * this.speed);
         if (this.x >= 1010) {
@@ -137,10 +130,7 @@ Object.prototype.update = function () {
         }
     }
 }
-Object.prototype.render = function () {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-}
-Object.prototype.collision = function () {
+MyObject.prototype.collision = function () {
     stopEntities();
     removeFromEntities(this);
     setTimeout(function(){
@@ -149,13 +139,13 @@ Object.prototype.collision = function () {
                 });
                 }, 3000);
 }
-Object.prototype.stop = function () {
+MyObject.prototype.stop = function () {
     this.isMoving = false;
 }
-Object.prototype.start = function () {
+MyObject.prototype.start = function () {
     this.isMoving = true;
 }
-Object.prototype.reset = function () {
+MyObject.prototype.reset = function () {
     this.x = this.start_x, this.y = this.start_y;
 }
 
@@ -278,7 +268,7 @@ function createEnemies() {
     allEntities.push(new Enemy(-200,70,1));
     allEntities.push(new Enemy(-2,150,2));
     allEntities.push(new Enemy(-2,310,1.5));
-    allEntities.push(new Object(-300,70,1));
+    allEntities.push(new MyObject(-300,70,1));
 }
 function restartGame() {
     allEntities.length = 0;
