@@ -2,7 +2,7 @@ var MAP_MAX_X = 898, MAP_MAX_Y = 390;
 var MAP_MIN_X = -2, MAP_MIN_Y = -10;
 var PLAYER_MOV_X = 100, PLAYER_MOV_Y =  80;
 
-var map = [
+/*var map = [
                 ['images/water-block.png','images/water-block.png','images/stone-block.png','images/water-block.png','images/water-block.png',
                 'images/water-block.png','images/water-block.png','images/stone-block.png','images/water-block.png','images/water-block.png'],
                 'images/stone-block.png',
@@ -10,7 +10,16 @@ var map = [
                 'images/stone-block.png',
                 'images/grass-block.png',
                 'images/grass-block.png'
-            ];
+            ]; */
+var map = {
+    "maps": [[], [['images/water-block.png','images/water-block.png','images/stone-block.png','images/water-block.png','images/water-block.png',
+                'images/water-block.png','images/water-block.png','images/stone-block.png','images/water-block.png','images/water-block.png'],
+                'images/stone-block.png',
+                'images/stone-block.png',
+                'images/stone-block.png',
+                'images/grass-block.png',
+                'images/grass-block.png' ]]
+}
 
 var Handler = function () {
     this.handler = "selector";
@@ -18,9 +27,7 @@ var Handler = function () {
 }
 Handler.prototype.handleInput = function(key) {
     if (this.handler == "selector") {
-        if (selector.handleInput(key)) {
-            this.level = 1;
-        }
+        selector.handleInput(key);
     } else if (this.handler == "player") {
         player.handleInput(key);
     }
@@ -269,6 +276,7 @@ function createEnemies() {
     allEntities.push(star1);
     allEntities.push(star2);
 }
+
 function restartGame() {
     allEntities.length = 0;
     player = new Player();

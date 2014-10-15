@@ -77,7 +77,7 @@ var Engine = (function(global) {
         selector.render();
     }
     function render() {
-        renderMap(map,6,10);   
+        renderMap(map.maps[handler.level],6,10);   
         renderEntities();
     }
     
@@ -85,7 +85,6 @@ var Engine = (function(global) {
         var rowImages = map, numRows = rows, numCols = cols, row, col;
         ctx.fillStyle = 'white';
         ctx.fillRect(0,0,1010,83);
-
 
         for (row = 0; row < numRows; row++) {
             var count = 0;
