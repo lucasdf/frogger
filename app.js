@@ -17,6 +17,17 @@ Handler.prototype.handleInput = function(key) {
 }
 var handler = new Handler();
 
+var Renderable = function (sprite,x,y) {
+    this.sprite = sprite;
+    this.start_x = x || -2, this.start_y = y || 60, this.x = x, this.y = y;
+}
+Renderable.prototype.render = function () {
+    console.log(this.sprite);
+    console.log(this.x);
+    console.log(this.y);
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+}
+
 var Selector = function () {
     this.sprite = 'images/Selector.png';
     this.x = 298, this.y = 230;
@@ -69,15 +80,16 @@ var selector = new Selector();
 // Enemies our player must avoid
 var Enemy = function(x, y, speed) {
     // Variables applied to each of our instances go here,
-
-    this.sprite = 'images/enemy-bug.png';
-    this.start_x = x || -2;
-    this.start_y = y || 70;
-    this.x = x || -2;
-    this.y = y || 70;
+    Renderable.call(this,'images/enemy-bug.png',x, y);
+//    this.sprite = 'images/enemy-bug.png';
+//    this.start_x = x || -2;
+//    this.start_y = y || 70;
+//    this.x = x || -2;
+//    this.y = y || 70;
     this.speed = speed || 1;
     this.isMoving = true;
 }
+Enemy.prototype = Object.create(Renderable.prototype);
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
@@ -98,9 +110,9 @@ Enemy.prototype.start = function () {
     this.isMoving = true;
 }
 // Draw the enemy on the screen, required method for game
-Enemy.prototype.render = function() {
+/* Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-}
+} */
 Enemy.prototype.reset = function() {
     this.x = this.start_x;
     this.y = this.start_y;
