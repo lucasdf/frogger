@@ -61,9 +61,9 @@ Selector.prototype.select = function () {
         player.sprite = 'images/char-cat-girl.png';
     } else if (this.x == 498) {
         player.sprite = 'images/char-horn-girl.png';
-    } else if (this.x == 598) {
+    } /*else if (this.x == 598) {
         player.sprite = 'images/char-pink-girl.png';
-    }
+    } */
 
     handler.handler = "player";
     handler.level = 1;
@@ -151,6 +151,9 @@ Star.prototype.render = function () {
 Star.prototype.collision = function () {
     stats.stars['number'] += 1;
     removeFromEntities(this);
+    if (stats.stars['number'] == 2) {
+        handler.level == 2;
+    }
 }
 Star.prototype.update = function(dt) {
 
@@ -258,7 +261,6 @@ function restartGame() {
     handler.level = 0;
     handler.handler = "selector"
 }
-
 
 function stopEntities () {
     allEntities.forEach(function(entity) {
