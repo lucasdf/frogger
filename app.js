@@ -2,6 +2,16 @@ var MAP_MAX_X = 898, MAP_MAX_Y = 390;
 var MAP_MIN_X = -2, MAP_MIN_Y = -10;
 var PLAYER_MOV_X = 100, PLAYER_MOV_Y =  80;
 
+var map = [
+                ['images/water-block.png','images/water-block.png','images/stone-block.png','images/water-block.png','images/water-block.png',
+                'images/water-block.png','images/water-block.png','images/stone-block.png','images/water-block.png','images/water-block.png'],
+                'images/stone-block.png',
+                'images/stone-block.png',
+                'images/stone-block.png',
+                'images/grass-block.png',
+                'images/grass-block.png'
+            ];
+
 var Handler = function () {
     this.handler = "selector";
     this.level = 0;
@@ -97,7 +107,7 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
     if (this.isMoving) {
-        this.x = this.x + (1 * this.speed);
+        this.x = this.x + (75 * this.speed) * dt;
     if (this.x >= 1010) {
         this.x =-2;
     }

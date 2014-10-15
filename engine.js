@@ -61,7 +61,7 @@ var Engine = (function(global) {
 
     function updateEntities(dt) {
         allEntities.forEach(function(entity) {
-            entity.update();
+            entity.update(dt);
         });
         player.update();
         stats.update();
@@ -77,20 +77,15 @@ var Engine = (function(global) {
         selector.render();
     }
     function render() {
+        renderMap(map,6,10);   
+        renderEntities();
+    }
+    
+    function renderMap(map,rows,cols) {
+        var rowImages = map, numRows = rows, numCols = cols, row, col;
         ctx.fillStyle = 'white';
         ctx.fillRect(0,0,1010,83);
-        var rowImages = [
-                ['images/water-block.png','images/water-block.png','images/stone-block.png','images/water-block.png','images/water-block.png',
-                'images/water-block.png','images/water-block.png','images/stone-block.png','images/water-block.png','images/water-block.png'],
-                'images/stone-block.png',
-                'images/stone-block.png',
-                'images/stone-block.png',
-                'images/grass-block.png',
-                'images/grass-block.png'
-            ],
-            numRows = 6,
-            numCols = 10,
-            row, col;
+
 
         for (row = 0; row < numRows; row++) {
             var count = 0;
@@ -102,10 +97,8 @@ var Engine = (function(global) {
                 ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
             }
             }
-        }     
-        renderEntities();
+        }  
     }
-    
     function renderEntities() {
         allEntities.forEach(function(entity) {
             entity.render();
