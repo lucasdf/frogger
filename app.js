@@ -166,7 +166,7 @@ var Stats = function () {
     }
     this.points = 0;
     this.stars = {
-        number: 1,
+        number: 0,
         sprite: 'images/Star.png'
     }
 }
@@ -241,14 +241,15 @@ var objects = [];
 var star1 = new Star (198,-10);
 var star2 = new Star (698,-10);
 var allEntities = [];
-allEntities.push(star1);
-allEntities.push(star2);
+
 function createEnemies() {
     allEntities.push(new Enemy());
     allEntities.push(new Enemy(-200,70,1));
     allEntities.push(new Enemy(-2,150,2));
     allEntities.push(new Enemy(-2,310,1.5));
     allEntities.push(new MyObject(-300,70,1));
+    allEntities.push(star1);
+    allEntities.push(star2);
 }
 function restartGame() {
     allEntities.length = 0;

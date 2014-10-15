@@ -105,8 +105,8 @@ var Engine = (function(global) {
         });
         player.render();
         stats.render();
-        star1.render();
-        star2.render();
+  //      star1.render();
+ //       star2.render();
     }
 
     function resetGame() {
