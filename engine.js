@@ -66,8 +66,14 @@ var Engine = (function(global) {
         player.update();
         stats.update();
     }
+
     function renderStart() {
+        ctx.fillStyle = 'black';
         ctx.fillRect(0,0,1010,800);
+
+        ctx.font="20px Georgia";
+        ctx.fillStyle = 'blue';
+        ctx.fillText("Select your player and press enter",100,90);
         selector.render();
     }
     function render() {

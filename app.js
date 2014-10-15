@@ -29,6 +29,8 @@ Renderable.prototype.reset = function() {
     this.x = this.start_x;
     this.y = this.start_y;
 }
+Renderable.prototype.stop = function() {}
+Renderable.prototype.start = function() {}
 
 var Selector = function () {
     Renderable.call(this,'images/Selector.png',298, 230);
@@ -157,9 +159,10 @@ Star.prototype.collision = function () {
         handler.level == 2;
     }
 }
-Star.prototype.update = function(dt) {
-
-}
+Star.prototype.update = function(dt) {}
+Star.prototype.stop = function() {}
+Star.prototype.start = function() {}
+Star.prototype.reset = function() {}
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
