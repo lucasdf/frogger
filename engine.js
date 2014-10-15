@@ -117,6 +117,7 @@ var Engine = (function(global) {
         allEntities.forEach(function(entity) {
             entity.reset();
         });
+        selector.reset();
         player.reset();
         stats['life'].reset();
     }

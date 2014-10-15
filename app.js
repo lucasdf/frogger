@@ -25,15 +25,18 @@ var Renderable = function (sprite,x,y) {
 Renderable.prototype.render = function () {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
-
+Renderable.prototype.reset = function() {
+    this.x = this.start_x;
+    this.y = this.start_y;
+}
 
 var Selector = function () {
-    this.sprite = 'images/Selector.png';
-    this.x = 298, this.y = 230;
+    Renderable.call(this,'images/Selector.png',298, 230);
     this.option = [['images/char-boy.png',298,230],
         ['images/char-cat-girl.png',398,230],
         ['images/char-horn-girl.png',498,230]];
 }
+Selector.prototype = Object.create(Renderable.prototype);
 Selector.prototype.handleInput = function(key) {
     console.log(key);    
     if ( key == 'right') {
@@ -102,14 +105,6 @@ Enemy.prototype.stop = function () {
 Enemy.prototype.start = function () {
     this.isMoving = true;
 }
-// Draw the enemy on the screen, required method for game
-/* Enemy.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-} */
-Enemy.prototype.reset = function() {
-    this.x = this.start_x;
-    this.y = this.start_y;
-}
 Enemy.prototype.collision = function() {
     stopEntities();
     stats['life'].number -= 1;
@@ -144,9 +139,6 @@ MyObject.prototype.stop = function () {
 }
 MyObject.prototype.start = function () {
     this.isMoving = true;
-}
-MyObject.prototype.reset = function () {
-    this.x = this.start_x, this.y = this.start_y;
 }
 
 var Star = function (x, y) {
@@ -190,26 +182,18 @@ Stats.prototype.render = function () {
             img_x += 55;
         }
 }
-Stats.prototype.update = function () {
-
-}
+Stats.prototype.update = function () {}
 Stats.prototype.restart = function () {
     this.life['number'] = 5;
 }
+
 var Player = function() {
-    this.sprite = "";  
-    this.start_x = 898, this.start_y = 390;
-    this.x = 898, this.y = 390;
+    Renderable.call(this,'',898, 390);
 }
+
+Player.prototype = Object.create(Renderable.prototype);
 Player.prototype.update = function(dt) {
     //console.log("player.update called");
-}
-Player.prototype.reset = function() {
-    this.x = this.start_x;
-    this.y = this.start_y;
-}
-Player.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 Player.prototype.handleInput = function(key) {
     console.log(key);    
@@ -305,6 +289,7 @@ function resetLevel () {
             entity.start();
         });
         player.reset();
+        selector.reset();
     }
 }
 
