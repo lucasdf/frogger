@@ -18,19 +18,18 @@ var Engine = (function(global) {
             dt = (now - lastTime) / 1000.0;
         
         update(dt);
-        if (handler.level == 0) {
+        if (stats.level == 0) {
             renderStart(); } 
         else {
-            render(); 
-        }
+            render(); }
         lastTime = now;
         requestID = win.requestAnimationFrame(main);
         
     };
-
+    
     function init() {      
         lastTime = Date.now();
-        if (handler.level == 0) {
+        if (stats.level == 0) {
             renderStart();
             main();
         } else {
@@ -51,7 +50,7 @@ var Engine = (function(global) {
             var e_x = entity.x;
             var e_y = entity.y;
             if (e_y == p_y) {
-                if (e_x > p_x -80 && e_x < p_x + 70) {
+                if (e_x > p_x -80 && e_x < p_x + 80) {
                     entity.collision();
                 }
             }
@@ -76,8 +75,9 @@ var Engine = (function(global) {
         ctx.fillText("Select your player and press enter",100,90);
         selector.render();
     }
+
     function render() {
-        renderMap(map.maps[handler.level],6,10);   
+        renderMap(map.maps[stats.level],6,10);   
         renderEntities();
     }
     
@@ -113,6 +113,7 @@ var Engine = (function(global) {
         'images/water-block.png',
         'images/grass-block.png',
         'images/enemy-bug.png',
+        'images/enemy-bug-left.png',
         'images/Selector.png',
         'images/char-boy.png',
         'images/char-cat-girl.png',

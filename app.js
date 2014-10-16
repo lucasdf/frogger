@@ -2,29 +2,27 @@ var MAP_MAX_X = 898, MAP_MAX_Y = 390;
 var MAP_MIN_X = -2, MAP_MIN_Y = -10;
 var PLAYER_MOV_X = 100, PLAYER_MOV_Y =  80;
 
-/*var map = [
-                ['images/water-block.png','images/water-block.png','images/stone-block.png','images/water-block.png','images/water-block.png',
-                'images/water-block.png','images/water-block.png','images/stone-block.png','images/water-block.png','images/water-block.png'],
-                'images/stone-block.png',
-                'images/stone-block.png',
-                'images/stone-block.png',
-                'images/grass-block.png',
-                'images/grass-block.png'
-            ]; */
 var map = {
-    "maps": [[], [['images/water-block.png','images/water-block.png','images/stone-block.png','images/water-block.png','images/water-block.png',
+    "maps": [ [], [['images/water-block.png','images/water-block.png','images/stone-block.png','images/water-block.png','images/water-block.png',
                 'images/water-block.png','images/water-block.png','images/stone-block.png','images/water-block.png','images/water-block.png'],
                 'images/stone-block.png',
                 'images/stone-block.png',
                 'images/stone-block.png',
                 'images/grass-block.png',
-                'images/grass-block.png' ]]
-}
+                'images/grass-block.png' ],
+                [['images/stone-block.png','images/water-block.png','images/water-block.png','images/stone-block.png','images/water-block.png',
+                'images/water-block.png','images/stone-block.png','images/water-block.png','images/water-block.png','images/stone-block.png'],
+                'images/water-block.png',
+                'images/stone-block.png',
+                'images/stone-block.png',
+                'images/grass-block.png',
+                'images/grass-block.png' ]
+            ]
+};
 
 var Handler = function () {
     this.handler = "selector";
-    this.level = 0;
-}
+};
 Handler.prototype.handleInput = function(key) {
     if (this.handler == "selector") {
         selector.handleInput(key);
@@ -33,21 +31,6 @@ Handler.prototype.handleInput = function(key) {
     }
 }
 var handler = new Handler();
-
-
-var Renderable = function (sprite,x,y) {
-    this.sprite = sprite;
-    this.start_x = x || -2, this.start_y = y || 60, this.x = x, this.y = y;
-}
-Renderable.prototype.render = function () {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-}
-Renderable.prototype.reset = function() {
-    this.x = this.start_x;
-    this.y = this.start_y;
-}
-Renderable.prototype.stop = function() {}
-Renderable.prototype.start = function() {}
 
 var Selector = function () {
     Renderable.call(this,'images/Selector.png',298, 230);
@@ -85,7 +68,7 @@ Selector.prototype.select = function () {
         player.sprite = 'images/char-pink-girl.png';
     } */
     handler.handler = "player";
-    handler.level = 1;
+    stats.level = 1;
     createEnemies();
     }
     
@@ -101,100 +84,19 @@ Selector.prototype.update = function () {}
 var selector = new Selector();
 
 // Enemies our player must avoid
-var Enemy = function(x, y, speed) {
-    Renderable.call(this,'images/enemy-bug.png',x, y);
-    this.speed = speed || 1;
-    this.isMoving = true;
-}
-Enemy.prototype = Object.create(Renderable.prototype);
-// Update the enemy's position, required method for game
-// Parameter: dt, a time delta between ticks
-Enemy.prototype.update = function(dt) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
-    if (this.isMoving) {
-        this.x = this.x + (75 * this.speed) * dt;
-    if (this.x >= 1010) {
-        this.x =-2;
-    }
-    }    
-}
-Enemy.prototype.stop = function () {
-    this.isMoving = false;
-}
-Enemy.prototype.start = function () {
-    this.isMoving = true;
-}
-Enemy.prototype.collision = function() {
-    stopEntities();
-    stats['life'].number -= 1;
-    resetLevel();
-}
-
-var MyObject = function(x, y, speed) {
-    Renderable.call(this,'images/gem-orange.png',x, y);
-    this.speed = speed;
-    this.isMoving = true;
-}
-MyObject.prototype = Object.create(Renderable.prototype);
-MyObject.prototype.update = function () {
-    if (this.isMoving) {
-        this.x = this.x + (1 * this.speed);
-        if (this.x >= 1010) {
-            this.x =-2;
-        }
-    }
-}
-MyObject.prototype.collision = function () {
-    stopEntities();
-    removeFromEntities(this);
-    setTimeout(function(){
-                    allEntities.forEach(function(entity) {
-                   entity.start(); 
-                });
-                }, 3000);
-}
-MyObject.prototype.stop = function () {
-    this.isMoving = false;
-}
-MyObject.prototype.start = function () {
-    this.isMoving = true;
-}
-
-var Star = function (x, y) {
-    this.x = x, this.y = y;
-    this.sprite = 'images/Star.png';
-}
-Star.prototype.render = function () {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-}
-Star.prototype.collision = function () {
-    stats.stars['number'] += 1;
-    removeFromEntities(this);
-    if (stats.stars['number'] == 2) {
-        handler.level == 2;
-    }
-}
-Star.prototype.update = function(dt) {}
-Star.prototype.stop = function() {}
-Star.prototype.start = function() {}
-Star.prototype.reset = function() {}
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
 
 var Stats = function () {
     this.life = {
         sprite: 'images/Heart.png',
-        number: 5        
-    }
+        number: 5
+    };
     this.points = 0;
     this.stars = {
         number: 0,
         sprite: 'images/Star.png'
-    }
-}
+    };
+    this.level = 0;
+};
 Stats.prototype.render = function () {
     var img_x = 0, img_y = 0;
         for ( x = 0; x < this.life['number']; x++) {
@@ -211,58 +113,14 @@ Stats.prototype.update = function () {}
 Stats.prototype.restart = function () {
     this.life['number'] = 5;
 }
-
-var Player = function() {
-    Renderable.call(this,'',898, 390);
-}
-Player.prototype = Object.create(Renderable.prototype);
-Player.prototype.update = function(dt) {
-    //console.log("player.update called");
-}
-Player.prototype.handleInput = function(key) {
-    console.log(key);    
-    if ( key == 'right') {
-        this.x = this.x+PLAYER_MOV_X;
-    } else if (key == 'left') {
-        this.x = this.x-PLAYER_MOV_X;;
-    } else if (key == 'up') {
-        this.y = this.y - PLAYER_MOV_Y;
-    } else if (key == 'down') {
-        this.y = this.y + PLAYER_MOV_Y;
-    } else if (key == 'esc'){
-        //Engine.reset(); NOT WORKING
-    }
-    if (this.x > MAP_MAX_X) {
-        this.x = MAP_MAX_X;
-    } else if (this.x < MAP_MIN_X) {
-        this.x = MAP_MIN_X;
-    } else if (this.y > MAP_MAX_Y) {
-        this.y = MAP_MAX_Y;
-    } else if (this.y < MAP_MIN_Y) {
-        this.y = MAP_MIN_Y;
-    }
-   console.log(this.x);
-   console.log(this.y); 
-}
-Player.prototype.isOnWater = function() {
-    if (this.y == -10) {
-            if (this.x == 198 || this.x == 698) {
-                return false;
-            } else {
-                stats['life'].number -= 1;
-                resetLevel();
-                return true;
-            }
-        }
-}
+var stats = new Stats();
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 
-var stats = new Stats();
+
 var player = new Player();
-var objects = [];
 var star1 = new Star (198,-10);
 var star2 = new Star (698,-10);
 var allEntities = [];
@@ -272,7 +130,8 @@ function createEnemies() {
     allEntities.push(new Enemy(-200,70,1));
     allEntities.push(new Enemy(-2,150,2));
     allEntities.push(new Enemy(-2,310,1.5));
-    allEntities.push(new MyObject(-300,70,1));
+    allEntities.push(new EnemyLeft(1010,70,1.5));
+//    allEntities.push(new MyObject(-300,70,1));
     allEntities.push(star1);
     allEntities.push(star2);
 }
@@ -281,7 +140,7 @@ function restartGame() {
     allEntities.length = 0;
     player = new Player();
     stats.restart();
-    handler.level = 0;
+    stats.level = 0;
     handler.handler = "selector"
 }
 
@@ -306,12 +165,13 @@ function resetLevel () {
     if (stats.life['number'] == 0) {
         restartGame();
     } else {
+        stopEntities();
         allEntities.forEach(function(entity) {
             entity.reset();
             entity.start();
         });
         player.reset();
-        selector.reset();
+//        selector.reset();
     }
 }
 
@@ -324,6 +184,5 @@ document.addEventListener(/*'keyup'*/'keydown', function(e) {
         27: 'esc', // need to know how to access engine.reset()
         13: 'enter'
     };
-
     handler.handleInput(allowedKeys[e.keyCode]);
 });
