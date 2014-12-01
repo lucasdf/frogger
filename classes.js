@@ -36,7 +36,7 @@ Enemy.prototype.stop = function () {
 Enemy.prototype.start = function () {
     this.isMoving = true;
 }
-Enemy.prototype.collision = function() {    
+Enemy.prototype.collision = function() {
     stats['life'].number -= 1;
     resetLevel();
 }
