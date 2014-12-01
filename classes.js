@@ -126,6 +126,7 @@ Star.prototype.update = function(dt) {}
 Star.prototype.stop = function() {}
 Star.prototype.start = function() {}
 Star.prototype.reset = function() {}
+
 /* var MyObject = function(x, y, speed) {
     Renderable.call(this,'images/gem-orange.png',x, y);
     this.speed = speed;
