@@ -71,8 +71,8 @@ EnemyLeft.prototype.collision = function() {
     resetLevel();
 }
 
-var Player = function() {
-    Renderable.call(this,'',898, 390);
+var Player = function(sprite) {
+    Renderable.call(this,sprite,398, 390);
 }
 Player.prototype = Object.create(Renderable.prototype);
 Player.prototype.update = function(dt) {
@@ -95,15 +95,7 @@ Player.prototype.handleInput = function(key) {
    console.log(this.y); 
 }
 Player.prototype.isOnWater = function() {
-    if (this.y == -10) {
-            if (this.x == 198 || this.x == 698) {
-                return false;
-            } else {
-                stats['life'].number -= 1;
-                resetLevel();
-                return true;
-            }
-        }
+    currentLevel.isOnWater(this.x,this.y)
 }
 
 var Star = function (x, y) {
@@ -114,45 +106,18 @@ Star.prototype.render = function () {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 Star.prototype.collision = function () {
-    stats.stars['number'] += 1;
+    console.log("Star collision");
+    currentLevel.collectStar(this);
+
+/*    stats.stars['number'] += 1;
     removeFromEntities(this);
     if (stats.stars['number'] == 2) {
         stats.level == 2;
  //       resetLevel();
  //   }
-}
+    } */
 }
 Star.prototype.update = function(dt) {}
 Star.prototype.stop = function() {}
 Star.prototype.start = function() {}
 Star.prototype.reset = function() {}
-
-/* var MyObject = function(x, y, speed) {
-    Renderable.call(this,'images/gem-orange.png',x, y);
-    this.speed = speed;
-    this.isMoving = true;
-}
-MyObject.prototype = Object.create(Renderable.prototype);
-MyObject.prototype.update = function () {
-    if (this.isMoving) {
-        this.x = this.x + (1 * this.speed);
-        if (this.x >= 1010) {
-            this.x =-2;
-        }
-    }
-}
-MyObject.prototype.collision = function () {
-    stopEntities();
-    removeFromEntities(this);
-    setTimeout(function(){
-                    allEntities.forEach(function(entity) {
-                   entity.start(); 
-                });
-                }, 3000);
-}
-MyObject.prototype.stop = function () {
-    this.isMoving = false;
-}
-MyObject.prototype.start = function () {
-    this.isMoving = true;
-} */

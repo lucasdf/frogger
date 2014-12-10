@@ -4,11 +4,11 @@ var Engine = (function(global) {
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
         patterns = {},
-        lastTime;
+        firstTime;
     var requestID = 0;
 
-    canvas.height = 606;
-    canvas.width = 1010;
+    canvas.height = screenSettings.screenHeight; //606;
+    canvas.width = screenSettings.screenWidth; //1010;
     doc.body.appendChild(canvas);
     
     
@@ -16,28 +16,19 @@ var Engine = (function(global) {
     function main() {
         var now = Date.now(),
             dt = (now - lastTime) / 1000.0;
-        
+        timeElapsed = now - firstTime;
+
         update(dt);
-        if (stats.level == 0) {
-            renderStart(); } 
-        else {
-            render(); }
+        render();    
         lastTime = now;
         requestID = win.requestAnimationFrame(main);
-        
     };
     
-    function init() {      
+    function init() {   
+        firstTime = Date.now();
         lastTime = Date.now();
-        if (stats.level == 0) {
-            renderStart();
-            main();
-        } else {
-            render();
-            createEnemies();
-            main();
-        }
-        
+//        renderStart();
+        main(); 
     }
     function update(dt) {
         updateEntities(dt);
@@ -55,6 +46,17 @@ var Engine = (function(global) {
                 }
             }
         });
+//        levels[gameStat.currentLevel]
+        currentLevel.stars.forEach(function(entity) {
+            var e_x = entity.x;
+            var e_y = entity.y;
+            if (e_y == p_y) {
+                if (e_x > p_x -80 && e_x < p_x + 80) {
+                    entity.collision();
+                }
+            }
+        });
+
         player.isOnWater();
     }
 
@@ -63,47 +65,44 @@ var Engine = (function(global) {
             entity.update(dt);
         });
         player.update();
-        stats.update();
-    }
-
-    function renderStart() {
-        ctx.fillStyle = 'black';
-        ctx.fillRect(0,0,1010,800);
-
-        ctx.font="20px Georgia";
-        ctx.fillStyle = 'blue';
-        ctx.fillText("Select your player and press enter",100,90);
-        selector.render();
+//        stats.update();
     }
 
     function render() {
-        renderMap(map.maps[stats.level],6,10);   
+        renderMap(currentLevel.map,currentLevel.mapX,currentLevel.mapY);
         renderEntities();
+
     }
     
     function renderMap(map,rows,cols) {
         var rowImages = map, numRows = rows, numCols = cols, row, col;
-        ctx.fillStyle = 'white';
+        ctx.fillStyle = 'black';
         ctx.fillRect(0,0,1010,83);
 
         for (row = 0; row < numRows; row++) {
             var count = 0;
             for (col = 0; col < numCols; col++) {
                 if (rowImages[row] instanceof Array) {
-                    ctx.drawImage(Resources.get(rowImages[row][count]), col * 101, row * 83);
+                    ctx.drawImage(Resources.get(rowImages[row][count]), col * screenSettings.mapCol, row * screenSettings.mapRow);
                     count++;                  
             } else {
-                ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
+                ctx.drawImage(Resources.get(rowImages[row]), col * screenSettings.mapCol, row * screenSettings.mapRow);
             }
             }
         }  
     }
     function renderEntities() {
-        allEntities.forEach(function(entity) {
+    /*    allEntities.forEach(function(entity) {
             entity.render();
-        });
+        }); */
+
         player.render();
-        stats.render();
+        life.render();
+        playerStars.render();
+        currentLevel['stars'].forEach(function(entity) {
+            entity.render();
+        }); 
+//        stats.render();
     }
 
     Resources.load([
@@ -125,3 +124,13 @@ var Engine = (function(global) {
     Resources.onReady(init);
     global.ctx = ctx;
 })(this);
+
+/*    function renderStart() {
+        ctx.fillStyle = 'black';
+        ctx.fillRect(0,0,1010,800);
+
+        ctx.font="20px Georgia";
+        ctx.fillStyle = 'blue';
+        ctx.fillText("Select your player and press enter",100,90);
+        selector.render();
+    } */
