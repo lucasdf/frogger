@@ -7,7 +7,7 @@ var life = {
 		posX = 0;
 		for ( x = 0; x < this.total; x++) {
             ctx.drawImage(Resources.get(this.sprite),posX,0,50,50);
-            posX += 55;
+            posX += this.spriteIncrementalPosX;
         }
 	}
 }

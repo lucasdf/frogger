@@ -87,7 +87,7 @@ var Engine = (function(global) {
                     count++;                  
             } else {
                 ctx.drawImage(Resources.get(rowImages[row]), col * screenSettings.mapCol, row * screenSettings.mapRow);
-            }
+                }
             }
         }  
     }
