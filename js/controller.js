@@ -46,7 +46,7 @@ var controller = {
 
                 ctx.font="20px Georgia";
                 ctx.fillStyle = "white";
-                ctx.fillText("Game Paused",385,40); // (screenSettings.screenWidth * 0.5,40);
+                ctx.fillText("Game Paused, press ESC to resume",385,40); // (screenSettings.screenWidth * 0.5,40);
                 break;
             case 'nextlevel':
                 this.renderBlackAndWhiteEffect();
