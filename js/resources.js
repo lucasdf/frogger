@@ -1,3 +1,4 @@
+// Load the resources
 (function() {
     var resourceCache = {};
     var loading = [];

@@ -281,8 +281,7 @@ var playerSprite = new PlayerSprite('images/char-boy-70x60.png',350,540);
 
 
 
-// This listens for key presses and sends the keys to your
-// Player.handleInput() method. You don't need to modify this.
+// This listens for key presses and sends the keys to controller.handleInput() method.
 document.addEventListener('keyup', function(e) {
     var allowedKeys = {
         13: 'enter',
