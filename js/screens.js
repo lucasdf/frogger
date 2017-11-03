@@ -5,7 +5,7 @@ var menuScreen = {
         {text: 'LEADERBOARD'},
         {text: 'SETTINGS'}
     ],
-    render: function () 
+    render: function ()
     {
         ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
         ctx.fillRect(0,0,770,600); // (screenSettings.screenWidth,screenSettings.screenHeight)
@@ -68,7 +68,7 @@ var newGameScreen = {
         ctx.fillStyle = "green";
         ctx.textAlign="center";
         ctx.fillText("FROGGER CLONE GAME", 385, 48);
-        
+
         var font = "40px Lucida Console";
         ctx.font = font;
         ctx.fillStyle = "white";
@@ -80,9 +80,9 @@ var newGameScreen = {
             var w = 770 * x;
             if ( i === this.selected) {
                 ctx.drawImage(Resources.get('images/Selector.png'), 385 + w, 282, 101, 171 ); // (screenSettings.screenWidth * 0.5 + w, screenSettings.screenHeight * 0.47)
-            } 
-                ctx.drawImage(Resources.get(this.button[i].sprite), 385 + w, 282, 101, 171 ); // (screenSettings.screenWidth * 0.5 + w, screenSettings.screenHeight * 0.47)
-                x += 0.2;
+            }
+            ctx.drawImage(Resources.get(this.button[i].sprite), 385 + w, 282, 101, 171 ); // (screenSettings.screenWidth * 0.5 + w, screenSettings.screenHeight * 0.47)
+            x += 0.2;
         }
     },
     handleInput: function (key)
